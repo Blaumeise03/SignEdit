@@ -5,3 +5,13 @@ description: A sign editor
 api-version: 1.13
 author: Blaumeise03
 website: http://blaumeise03.de/
+
+permissions:
+  signEdit.edit:
+    default: true
+    description: Edit Signs
+  signEdit.*:
+    default: op
+    description: Wildcard
+    children:
+      signEdit.edit: true
