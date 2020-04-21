@@ -4,15 +4,14 @@
 
 package de.blaumeise03.signEdit;
 
-import net.minecraft.server.v1_14_R1.BlockPosition;
-import net.minecraft.server.v1_14_R1.EntityHuman;
-import net.minecraft.server.v1_14_R1.PacketPlayOutOpenSignEditor;
-import net.minecraft.server.v1_14_R1.TileEntitySign;
+import net.minecraft.server.v1_15_R1.BlockPosition;
+import net.minecraft.server.v1_15_R1.PacketPlayOutOpenSignEditor;
+import net.minecraft.server.v1_15_R1.TileEntitySign;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
-import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -102,12 +101,17 @@ public class SignEditEventListener implements Listener {
                 assert t != null;
                 t.isEditable = true;
                 try {
-                    Field f = t.getClass().getDeclaredField("j");
-                    boolean access = f.isAccessible();
+                    Field f = t.getClass().getDeclaredField("c");
+                    //boolean access = f.isAccessible();
                     f.setAccessible(true);
-                    t.a((EntityHuman) p.getHandle());
+                    //t.a((EntityHuman) p.getHandle());
+                    try {
+                        f.set(t, p.getHandle());
+                    } catch (IllegalAccessException illegalAccessException) {
+                        illegalAccessException.printStackTrace();
+                    }
                     t.update();
-                    f.setAccessible(access);
+                    f.setAccessible(false);
                 } catch (NoSuchFieldException ex) {
                     ex.printStackTrace();
                 }
