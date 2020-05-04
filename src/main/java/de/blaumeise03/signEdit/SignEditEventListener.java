@@ -5,6 +5,7 @@
 package de.blaumeise03.signEdit;
 
 import net.minecraft.server.v1_15_R1.BlockPosition;
+import net.minecraft.server.v1_15_R1.EntityHuman;
 import net.minecraft.server.v1_15_R1.PacketPlayOutOpenSignEditor;
 import net.minecraft.server.v1_15_R1.TileEntitySign;
 import org.bukkit.ChatColor;
@@ -97,6 +98,7 @@ public class SignEditEventListener implements Listener {
                     sign.setLine(i, line);
                 }
                 sign.update();
+                if (l.getWorld() == null) return;
                 TileEntitySign t = (TileEntitySign) ((CraftWorld) l.getWorld()).getHandle().getTileEntity(new BlockPosition(l.getBlockX(), l.getBlockY(), l.getBlockZ()));
                 assert t != null;
                 t.isEditable = true;
@@ -104,12 +106,10 @@ public class SignEditEventListener implements Listener {
                     Field f = t.getClass().getDeclaredField("c");
                     //boolean access = f.isAccessible();
                     f.setAccessible(true);
-                    //t.a((EntityHuman) p.getHandle());
-                    try {
-                        f.set(t, p.getHandle());
-                    } catch (IllegalAccessException illegalAccessException) {
-                        illegalAccessException.printStackTrace();
-                    }
+                    t.a((EntityHuman) p.getHandle());
+
+                    //f.set(t, p.getHandle());
+
                     t.update();
                     f.setAccessible(false);
                 } catch (NoSuchFieldException ex) {

@@ -8,7 +8,7 @@ website: http://blaumeise03.de/
 
 permissions:
   signEdit.edit:
-    default: true
+    default: op
     description: Edit Signs
   signEdit.*:
     default: op
